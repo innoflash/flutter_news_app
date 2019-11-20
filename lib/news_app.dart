@@ -24,15 +24,34 @@ class NewsApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var appConfig = AppConfig.of(context);
+    var newsProvider = locator<NewsProvider>();
     return MultiProvider(
       providers: getProviders(),
       child: MaterialApp(
         title: appConfig.appName,
         home: Scaffold(
-          appBar: AppBar(
-            centerTitle: true,
-            title: Text(appConfig.appName),
-          ),
+          appBar: (newsProvider.getShowAppBar)
+              ? AppBar(
+                  centerTitle: true,
+                  title: Text(appConfig.appName),
+                  actions: <Widget>[
+                    IconButton(
+                      icon: Icon(Icons.search),
+                      tooltip: "Searches for news",
+                      onPressed: () {
+                        newsProvider.updateAppBarVisibilty(false);
+                      },
+                    )
+                  ],
+                )
+              : TabBar(
+                  tabs: <Widget>[
+                    Tab(
+                      text: "my Tab",
+                    )
+                  ],
+                  controller: null,
+                ),
           body: NewsIndex(),
         ),
       ),

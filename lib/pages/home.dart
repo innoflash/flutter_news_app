@@ -21,15 +21,4 @@ class _NewsState extends State<NewsIndex> {
         width: double.infinity,
         color: Color.fromRGBO(242, 229, 229, .75));
   }
-
-  @override
-  Future initState() async {
-    print('this has just been initialized');
-
-    ///   Utils.showAlert(context, message: "This is an alert message", onClose: () {
-    ///     print('close clicked');
-    ///   });
-
-    var connectivityResult = await Connectivity().checkConnectivity();
-  }
 }
