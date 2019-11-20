@@ -1,6 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:news_app/app_config.dart';
+import 'package:news_app/news_app.dart';
+import 'package:news_app/utils/constants.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  registerProviders();
+  var configuredApp = AppConfig(
+    apiBaseUrl: Constants.API_BASE,
+    appName: Constants.APP_NAME,
+    child: NewsApp(),
+  );
+  runApp(configuredApp);
+}
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
