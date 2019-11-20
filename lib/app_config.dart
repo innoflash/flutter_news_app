@@ -7,7 +7,8 @@ class AppConfig extends InheritedWidget {
   AppConfig(
       {@required this.appName,
       @required this.apiBaseUrl,
-      @required Widget child});
+      @required Widget child})
+      : super(child: child);
 
   static AppConfig of(BuildContext context) {
     return context.inheritFromWidgetOfExactType(AppConfig);
