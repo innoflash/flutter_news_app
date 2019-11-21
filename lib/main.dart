@@ -1,14 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:news_app/app_config.dart';
 import 'package:news_app/news_app.dart';
+import 'package:news_app/providers/news_provider.dart';
 import 'package:news_app/utils/constants.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   registerProviders();
   var configuredApp = AppConfig(
     apiBaseUrl: Constants.API_BASE,
     appName: Constants.APP_NAME,
-    child: NewsApp(),
+    child: MultiProvider(
+      providers: [
+        ChangeNotifierProvider<NewsProvider>.value(value: NewsProvider())
+      ],
+      child: NewsApp(),
+    ),
   );
   runApp(configuredApp);
 }

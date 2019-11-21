@@ -12,7 +12,7 @@ void registerProviders() {
   locator.registerLazySingleton(() => NewsProvider());
 }
 
-List<SingleChildCloneableWidget> getProviders() {
+getProviders() {
   return [
     ChangeNotifierProvider(
       builder: (_) => locator<NewsProvider>(),
@@ -20,40 +20,46 @@ List<SingleChildCloneableWidget> getProviders() {
   ];
 }
 
+getAppProviders(){
+  return [
+    ChangeNotifierProvider<NewsProvider>.value(value: NewsProvider()),
+  ];
+}
+
 class NewsApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var appConfig = AppConfig.of(context);
-    var newsProvider = locator<NewsProvider>();
-    return MultiProvider(
-      providers: getProviders(),
-      child: MaterialApp(
-        title: appConfig.appName,
-        home: Scaffold(
-          appBar: (newsProvider.getShowAppBar)
-              ? AppBar(
-                  centerTitle: true,
-                  title: Text(appConfig.appName),
-                  actions: <Widget>[
-                    IconButton(
-                      icon: Icon(Icons.search),
-                      tooltip: "Searches for news",
-                      onPressed: () {
-                        newsProvider.updateAppBarVisibilty(false);
-                      },
-                    )
-                  ],
-                )
-              : TabBar(
-                  tabs: <Widget>[
-                    Tab(
-                      text: "my Tab",
-                    )
-                  ],
-                  controller: null,
-                ),
-          body: NewsIndex(),
+    NewsProvider newsProvider = Provider.of<NewsProvider>(context);
+
+    return MaterialApp(
+      title: appConfig.appName,
+      home: Scaffold(
+        appBar: (newsProvider.getShowAppBar)
+            ? AppBar(
+          centerTitle: true,
+          title: Text(appConfig.appName),
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(Icons.search),
+              tooltip: "Searches for news",
+              onPressed: () {
+                newsProvider.showAppBar = false;
+                print('we good');
+
+              },
+            )
+          ],
+        )
+            : TabBar(
+          tabs: <Widget>[
+            Tab(
+              text: "my Tab",
+            )
+          ],
+          controller: null,
         ),
+        body: NewsIndex(),
       ),
     );
   }

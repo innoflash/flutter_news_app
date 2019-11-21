@@ -10,5 +10,5 @@ class NewsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void updateAppBarVisibilty(bool state) => _showAppBar = state;
+  void updateAppBarVisibility(bool state) => _showAppBar = state;
 }
