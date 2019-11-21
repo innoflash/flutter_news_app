@@ -35,8 +35,7 @@ class NewsApp extends StatelessWidget {
     return MaterialApp(
       title: appConfig.appName,
       home: Scaffold(
-        appBar: (newsProvider.getShowAppBar)
-            ? AppBar(
+        appBar:AppBar(
           centerTitle: true,
           title: Text(appConfig.appName),
           actions: <Widget>[
@@ -44,20 +43,10 @@ class NewsApp extends StatelessWidget {
               icon: Icon(Icons.search),
               tooltip: "Searches for news",
               onPressed: () {
-                newsProvider.showAppBar = false;
-                print('we good');
-
+                newsProvider.toggleShowAppBar();
               },
             )
           ],
-        )
-            : TabBar(
-          tabs: <Widget>[
-            Tab(
-              text: "my Tab",
-            )
-          ],
-          controller: null,
         ),
         body: NewsIndex(),
       ),
