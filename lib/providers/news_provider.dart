@@ -2,13 +2,16 @@ import 'package:flutter/foundation.dart';
 
 class NewsProvider extends ChangeNotifier {
   bool _showAppBar = true;
-  int _page = 0;
+  int _page = 1;
+  List _articles = [];
 
   bool get getShowAppBar => _showAppBar;
   int get getPage => _page;
+  List get getArticles => _articles;
 
   set showAppBar(bool appBarVisibility) {
     _showAppBar = appBarVisibility;
+    if (!appBarVisibility) page = 1;
     notifyListeners();
   }
 
@@ -17,9 +20,19 @@ class NewsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  set articles(List articles) {
+    _articles.add(articles);
+    print('updating articles');
+    notifyListeners();
+  }
+
   void updateAppBarVisibility(bool state) => _showAppBar = state;
 
   void toggleShowAppBar() => showAppBar = !_showAppBar;
 
   void updatePageNumber() => page = _page++;
+
+  void updateArticles(List articles) {
+    articles = articles;
+  }
 }

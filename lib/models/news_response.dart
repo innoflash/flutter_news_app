@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:equatable/equatable.dart';
 import 'package:news_app/models/news.dart';
 
@@ -8,7 +10,7 @@ class NewsResponse extends Equatable {
 
   final String _status;
   final int _totalResults;
-  final List<Article> _articles;
+  final List _articles;
 
   NewsResponse.fromJSON(Map<String, Object> jsonData)
       : _status = jsonData[STATUS],
@@ -16,7 +18,7 @@ class NewsResponse extends Equatable {
         _articles = jsonData[ARTICLES];
 
   ///Model getters
-  List<Article> get getArticles => _articles;
+  List get getArticles => _articles;
   int get getTotalResults => _totalResults;
   String get getStatus => _status;
 
