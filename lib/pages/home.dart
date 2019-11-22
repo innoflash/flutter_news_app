@@ -1,6 +1,8 @@
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
+import 'package:news_app/models/news.dart';
 import 'package:news_app/models/news_response.dart';
+import 'package:news_app/pages/article.dart';
 import 'package:news_app/providers/news_provider.dart';
 import 'package:news_app/utils/api.dart';
 import 'package:news_app/utils/constants.dart';
@@ -47,13 +49,18 @@ class _NewsState extends State<NewsIndex> {
         Expanded(
           child: ListView.builder(
             shrinkWrap: true,
-            itemCount: datas.length,
+            itemCount: newsProvider.getArticles.length,
             itemBuilder: (BuildContext context, int index) {
-              return ListTile(
-                title: Text(datas[index]['title']),
-                subtitle: Text(datas[index]['author']),
-                leading: CircleAvatar(
-                  backgroundImage: NetworkImage(datas[index]['urlToImage']),
+              return Card(
+                child: ListTile(
+                  title: Text(newsProvider.getArticles[index]['title']),
+                  subtitle: Text(newsProvider.getArticles[index]['author']),
+                  leading: CircleAvatar(
+                    backgroundImage: NetworkImage(
+                        newsProvider.getArticles[index]['urlToImage']),
+                  ),
+                  onTap: () =>
+                      openArticle(context, newsProvider.getArticles[index]),
                 ),
               );
             },
@@ -68,12 +75,18 @@ class _NewsState extends State<NewsIndex> {
     var data = await http
         .get(API.getURL(value, Provider.of<NewsProvider>(_context).getPage));
     Provider.of<NewsProvider>(_context).updatePageNumber();
-    // NewsResponse newsResponse = NewsResponse.fromJSON(json.decode(data.body));
-    // Provider.of<NewsProvider>(_context)
-    //     .updateArticles(newsResponse.getArticles);
-    print(data.body);
-    setState(() {
-      datas = json.decode(data.body)['articles'];
-    });
+    NewsResponse newsResponse = NewsResponse.fromJSON(json.decode(data.body));
+    Provider.of<NewsProvider>(_context)
+        .updateArticles(newsResponse.getArticles);
+  }
+
+  void openArticle(BuildContext context, Map<String, Object> articleJSON) {
+    print(articleJSON);
+    Navigator.push(
+        context,
+        new MaterialPageRoute(
+            builder: (context) => ArticlePage(
+                  article: Article.fromJSON(articleJSON),
+                )));
   }
 }

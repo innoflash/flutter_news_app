@@ -21,7 +21,8 @@ class NewsProvider extends ChangeNotifier {
   }
 
   set articles(List articles) {
-    _articles.add(articles);
+    //_articles.add(articles);
+    _articles = articles;
     print('updating articles');
     notifyListeners();
   }
@@ -32,7 +33,5 @@ class NewsProvider extends ChangeNotifier {
 
   void updatePageNumber() => page = _page++;
 
-  void updateArticles(List articles) {
-    articles = articles;
-  }
+  void updateArticles(List newsArticles) => articles = newsArticles;
 }
